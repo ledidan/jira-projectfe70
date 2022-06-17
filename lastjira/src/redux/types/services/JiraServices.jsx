@@ -31,6 +31,17 @@ export const JiraService = {
       method: "POST",
       data: newProject,
       headers: {
+        Authorization: `Bearer ` + localStorage.getItem(ACCESS_TOKEN), //JWT
+        TokenCybersoft: TOKEN_CYBER,
+      },
+    });
+  },
+  createProjectAuthorize: (newProject) => {
+    return axios({
+      url: `${DOMAIN_LOGIN_JIRA}/Project/createProjectAuthorize`,
+      method: "POST",
+      data: newProject,
+      headers: {
         Authorization: `Bearer ` + localStorage.getItem(ACCESS_TOKEN),
         TokenCybersoft: TOKEN_CYBER,
       },

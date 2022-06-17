@@ -10,8 +10,9 @@ import About from "./pages/About/About";
 import Pricing from "./pages/Price/Pricing";
 import Service from "./pages/Service/Service";
 import { JiraDashboard } from "./Template/JiraDashboard";
-import IndexJira from "./Component/MainContentJira/IndexJira";
+import IndexJira from "./Component/IndexJira";
 import CreateProjectJira from "./Component/CreateProject/CreateProjectJira";
+import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 function App() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ function App() {
           exact
           path="/projectsetting"
           Component={CreateProjectJira}
+        />
+        <JiraDashboard
+          exact
+          path="/project-management"
+          Component={ProjectManagement}
         />
       </Switch>
     </BrowserRouter>

@@ -15,7 +15,7 @@ function* createProjectSaga(action) {
   //   Goi API lay du lieu ve
   try {
     const { data, status } = yield call(() =>
-      JiraService.createProject(action.newProject)
+      JiraService.createProjectAuthorize(action.newProject)
     );
 
     //   Goi API thanh cong thi dispatch len reducer thong qua put
