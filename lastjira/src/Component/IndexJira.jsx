@@ -1,7 +1,7 @@
 import React from "react";
-import ContentMain from "./ContentMain";
-import HeaderMain from "./HeaderMain";
-import InfoMain from "./InfoMain";
+import ContentMain from "./MainContentJira/ContentMain";
+import HeaderMain from "./MainContentJira/HeaderMain";
+import InfoMain from "./MainContentJira/InfoMain";
 
 export default function IndexJira() {
   return (

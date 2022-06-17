@@ -37,6 +37,16 @@ export default function MenuJira() {
             Project Settings
           </NavLink>
         </div>
+        <div>
+          <i className="fa fa-users"></i>
+          <NavLink
+            to="/project-management"
+            activeClassName="active font-weight-bold"
+            className="ml-1 text-dark"
+          >
+            Project Management
+          </NavLink>
+        </div>
       </div>
       <div className="feature">
         <div>
