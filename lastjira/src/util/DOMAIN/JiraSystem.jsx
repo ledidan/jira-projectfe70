@@ -1,0 +1,14 @@
+export const DOMAIN_LOGIN_JIRA = "https://jiranew.cybersoft.edu.vn/api";
+export const TOKEN_CYBER =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJGcm9udCBFbmQgNzAiLCJIZXRIYW5TdHJpbmciOiIxNC8xMC8yMDIyIiwiSGV0SGFuVGltZSI6IjE2NjU3MDU2MDAwMDAiLCJuYmYiOjE2Mzc0Mjc2MDAsImV4cCI6MTY2NTg1MzIwMH0.RAzH9H37ZyQ8ZT6A62fw3_bDfJOCq0A9vz08qT262EU";
+export const TOKEN_BEARER =
+  "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJsZWRpZGFuQGdtYWlsLmNvbSIsIm5iZiI6MTY1NTEzNjg2MiwiZXhwIjoxNjU1MTQwNDYyfQ.--dTy7V45OonN84RAGMzO6rqaaPmFNUuvfYTQ-_ZQLw";
+export const ACCESS_TOKEN = "access_token";
+export const USER_LOGIN = "user_login";
+
+// Check Status Code
+export const STATUS_CODE = {
+  SUCCESS: 200,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500,
+};
