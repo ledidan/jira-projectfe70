@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Space, Table } from "antd";
-
+import HtmlParser from "react-html-parser";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const data = [
   {
     id: 5299,
@@ -91,6 +92,25 @@ export default function ProjectManagement(props) {
       title: "description",
       dataIndex: "description",
       key: "description",
+      render: (text, record, index) => {
+        let jsxNode = HtmlParser(text);
+
+        return <div key={index}>{jsxNode}</div>;
+      },
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text, record, index) => (
+        <Space size="middle">
+          <a>
+            <EditOutlined />
+          </a>
+          <a>
+            <DeleteOutlined />
+          </a>
+        </Space>
+      ),
     },
   ];
   return (
@@ -105,7 +125,12 @@ export default function ProjectManagement(props) {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
       </Space>
-      <Table columns={columns} dataSource={data} onChange={handleChange} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={handleChange}
+        rowKey={"id"}
+      />
     </div>
   );
 }
