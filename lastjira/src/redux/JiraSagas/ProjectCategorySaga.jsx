@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { STATUS_CODE } from "../../util/DOMAIN/JiraSystem";
+import { STATUS_CODE } from "../../util/JiraSystem";
 import {
   API_PROJECT_CATEGORY,
   GET_API_SUCCESS,

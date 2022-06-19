@@ -6,7 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
-import { history } from "./util/DOMAIN/history";
+import { history } from "./util/history";
 import { Router } from "react-router-dom";
 
 ReactDOM.render(

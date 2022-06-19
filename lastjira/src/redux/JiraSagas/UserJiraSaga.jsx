@@ -8,12 +8,13 @@ import {
   takeLatest,
   select,
 } from "redux-saga/effects";
-import { ACCESS_TOKEN, USER_LOGIN } from "../../util/DOMAIN/JiraSystem";
+import { ACCESS_TOKEN, USER_LOGIN } from "../../util/JiraSystem";
 import { USER_SIGNIN_API, USLOGIN_ACTION } from "../contants/JiraConstants";
 import { HIDE_LOADING } from "../contants/DisplayLoading";
 import { JiraService } from "../types/services/JiraServices";
 
-import { history } from "../../util/DOMAIN/history";
+import { history } from "../../util/history";
+import { Notification } from "../../util/Notification/notification";
 
 function* signInSaga(action) {
   yield delay(500);
@@ -33,9 +34,11 @@ function* signInSaga(action) {
     });
 
     // let history = yield select((state) => state.HistoryReducer.history);
-    history.push("/dashboard");
+    // history.push("/dashboard");
+    Notification("success", "Logged in successfully !");
   } catch (err) {
     console.log(err.response.data);
+    Notification("error", "Login attempt failed !");
   }
   yield put({ type: HIDE_LOADING });
 }

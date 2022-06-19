@@ -5,7 +5,7 @@ import JiraReducer from "./reducers/JiraReducer";
 import { HistoryReducer } from "./reducers/HistoryReducer";
 import { UserLoginJiraReducer } from "./reducers/UserJiraReducer";
 import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
-
+import { ProjectManagementReducer } from "./reducers/ProjectManagementReducer";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
   HistoryReducer,
   UserLoginJiraReducer,
   ProjectCategoryReducer,
+  ProjectManagementReducer,
 });
 
 export const store = createStore(

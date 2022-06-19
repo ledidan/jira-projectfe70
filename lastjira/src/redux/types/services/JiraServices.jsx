@@ -3,7 +3,7 @@ import {
   DOMAIN_LOGIN_JIRA,
   TOKEN_CYBER,
   ACCESS_TOKEN,
-} from "../../../util/DOMAIN/JiraSystem";
+} from "../../../util/JiraSystem";
 
 export const JiraService = {
   signInJira: (userLogin) => {
@@ -41,6 +41,16 @@ export const JiraService = {
       url: `${DOMAIN_LOGIN_JIRA}/Project/createProjectAuthorize`,
       method: "POST",
       data: newProject,
+      headers: {
+        Authorization: `Bearer ` + localStorage.getItem(ACCESS_TOKEN),
+        TokenCybersoft: TOKEN_CYBER,
+      },
+    });
+  },
+  getListProject: () => {
+    return axios({
+      url: `${DOMAIN_LOGIN_JIRA}/Project/getAllProject`,
+      method: "GET",
       headers: {
         Authorization: `Bearer ` + localStorage.getItem(ACCESS_TOKEN),
         TokenCybersoft: TOKEN_CYBER,

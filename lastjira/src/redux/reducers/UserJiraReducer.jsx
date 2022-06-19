@@ -1,4 +1,4 @@
-import { USER_LOGIN } from "../../util/DOMAIN/JiraSystem";
+import { USER_LOGIN } from "../../util/JiraSystem";
 
 let UsLogin = {};
 if (localStorage.getItem(USER_LOGIN)) {
