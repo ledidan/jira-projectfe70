@@ -13,6 +13,7 @@ import { JiraDashboard } from "./Template/JiraDashboard";
 import IndexJira from "./Component/IndexJira";
 import CreateProjectJira from "./Component/CreateProject/CreateProjectJira";
 import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
+import ModalHOC from "./HOC/ModalHOC";
 function App() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -23,8 +24,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ModalHOC />
       <Switch>
         {/* HomeTemplate */}
+
         <HomeTemplate path="/home" exact Component={Home} />
         <HomeTemplate path="/about" exact Component={About} />
         <HomeTemplate path="/contact" exact Component={Contact} />
