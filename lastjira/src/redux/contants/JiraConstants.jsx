@@ -17,3 +17,8 @@ export const API_CREATE_PROJECT = "CREATE_PROJECT_SAGA";
 
 export const OPEN_MODAL = "OPEN_MODAL_POPUP";
 export const CLOSE_MODAL = "CLOSE_MODAL_POPUP";
+export const OPEN_EDIT_FORM = "OPEN_FORM_EDIT_PROJECT";
+export const SET_SUBMIT_FORM = "SET_SUBMIT_EDIT_PROJECT";
+
+// EditFormProject Reducer
+export const EDIT_PROJECT_FORM = "EDIT_PROJECT_FORM";

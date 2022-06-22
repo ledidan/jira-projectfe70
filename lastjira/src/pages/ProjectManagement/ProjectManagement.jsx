@@ -3,7 +3,12 @@ import { Button, Space, Table, Tag } from "antd";
 import HtmlParser from "react-html-parser";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { GET_ALL_LIST } from "../../redux/contants/JiraConstants";
+import {
+  GET_ALL_LIST,
+  OPEN_EDIT_FORM,
+  OPEN_MODAL,
+} from "../../redux/contants/JiraConstants";
+import FormEditProject from "../../Component/Forms/FormEditProject/FormEditProject";
 const data = [
   {
     id: 5299,
@@ -157,7 +162,17 @@ export default function ProjectManagement(props) {
       key: "action",
       render: (text, record, index) => (
         <Space>
-          <button className="btn btn-primary ">
+          <button
+            className="btn btn-primary "
+            onClick={() => {
+              const action = {
+                type: OPEN_EDIT_FORM,
+                Component: <FormEditProject />,
+              };
+              // Dispatch len reducer noi dung
+              dispatch(action);
+            }}
+          >
             <EditOutlined style={{ fontSize: 18 }} />
           </button>
           <button className="btn btn-outline-danger ">

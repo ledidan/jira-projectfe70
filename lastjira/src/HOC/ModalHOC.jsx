@@ -11,35 +11,45 @@ import {
   Select,
   Space,
 } from "antd";
-import { useSelector } from "react-redux";
+import { OPEN_MODAL, CLOSE_MODAL } from "../redux/contants/JiraConstants";
+import { useSelector, useDispatch } from "react-redux";
 export default function ModalHOC(props) {
-  const { visible } = useSelector((state) => state.ModalHOCReducer);
-  console.log("visible", visible);
+  const { visible, ComponentContentDrawer, callBackSubmit } = useSelector(
+    (state) => state.ModalHOCReducer
+  );
+  const dispatch = useDispatch();
   const showDrawer = () => {
-    visible(true);
+    dispatch({ type: OPEN_MODAL });
   };
 
   const onClose = () => {
-    visible(false);
+    dispatch({ type: CLOSE_MODAL });
   };
 
   return (
     <>
+      <button onClick={showDrawer}>Showdrawer</button>
       <Drawer
         title="Create a new account"
         width={720}
-        // onClose={onClose}
+        onClose={onClose}
         visible={visible}
         bodyStyle={{
           paddingBottom: 80,
         }}
         extra={
-          <Space>
-            <Button>Cancel</Button>
-            <Button type="primary">Submit</Button>
+          <Space style={{ textAlign: "right" }}>
+            <Button onClick={onClose} style={{ marginRight: 8 }}>
+              Cancel
+            </Button>
+            <Button onClick={callBackSubmit} type="primary">
+              Submit
+            </Button>
           </Space>
         }
-      ></Drawer>
+      >
+        {ComponentContentDrawer}
+      </Drawer>
     </>
   );
 }
