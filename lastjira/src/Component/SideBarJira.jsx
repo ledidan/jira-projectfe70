@@ -1,32 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../src/index.css";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+
+const { Header, Sider } = Layout;
+
 export default function SideBarJira() {
+  const [collapsed, setCollapsed] = useState(false);
   return (
-    <div className="sideBar">
-      <div className="sideBar-top">
-        <div className="sideBar-icon">
-          <i className="fab fa-jira" />
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="text-right text-white text-lg">
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger p-3",
+              onClick: () => setCollapsed(!collapsed),
+            }
+          )}
         </div>
-        <div
-          className="sideBar-icon"
-          data-toggle="modal"
-          data-target="#searchModal"
-          style={{ cursor: "pointer" }}
-        >
-          <i className="fa fa-search" />
-          <span className="title">SEARCH ISSUES</span>
-        </div>
-        <div className="sideBar-icon">
-          <i className="fa fa-plus" />
-          <span className="title">CREATE ISSUES</span>
-        </div>
-      </div>
-      <div className="sideBar-bottom">
-        <div className="sideBar-icon">
-          <i className="fa fa-question-circle" />
-          <span className="title">ABOUT</span>
-        </div>
-      </div>
-    </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          items={[
+            {
+              key: "1",
+              icon: <PlusCircleOutlined style={{ fontSize: "20px" }} />,
+              label: "Create Issue",
+            },
+            {
+              key: "2",
+              icon: <SearchOutlined style={{ fontSize: "20px" }} />,
+              label: "Search",
+            },
+          ]}
+        />
+      </Sider>
+    </Layout>
   );
 }
