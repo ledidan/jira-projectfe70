@@ -1,6 +1,11 @@
 import { call, delay, put, takeLatest } from "redux-saga/effects";
 import { STATUS_CODE } from "../../util/JiraSystem";
-import { API_CREATE_PROJECT, GET_ALL_LIST } from "../contants/JiraConstants";
+import {
+  API_CREATE_PROJECT,
+  CLOSE_MODAL,
+  GET_ALL_LIST,
+  UPDATE_PROJECT,
+} from "../contants/JiraConstants";
 import { JiraService } from "../types/services/JiraServices";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../contants/DisplayLoading";
 import { history } from "../../util/history";
@@ -59,4 +64,44 @@ function* getListProjectSaga() {
 }
 export function* listenGetListProjectSaga() {
   yield takeLatest(GET_ALL_LIST, getListProjectSaga);
+}
+
+// Update Project
+function* updateProjectSaga(action) {
+  console.log("action", action);
+  //   Goi API lay du lieu ve
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+  try {
+    const { data, status } = yield call(() =>
+      JiraService.updateProject(action.projectUpdate)
+    );
+
+    //   Goi API thanh cong thi dispatch len reducer thong qua put
+    if (status === STATUS_CODE.SUCCESS) {
+      // yield put({
+      //   type: UPDATE_PROJECT,
+      //   projectUpdate: data.content,
+      // });
+      console.log(data);
+      Notification("success", "Update project successfully");
+    }
+    // Chay lai khi da update du lieu
+    yield put({
+      type: GET_ALL_LIST,
+    });
+    yield put({
+      type: CLOSE_MODAL,
+    });
+  } catch (err) {
+    console.info(err.config);
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+export function* listenUpdateProjectSaga() {
+  yield takeLatest(UPDATE_PROJECT, updateProjectSaga);
 }

@@ -18,6 +18,7 @@ export default function ModalHOC(props) {
     (state) => state.ModalHOCReducer
   );
   const dispatch = useDispatch();
+
   const showDrawer = () => {
     dispatch({ type: OPEN_MODAL });
   };
@@ -28,7 +29,6 @@ export default function ModalHOC(props) {
 
   return (
     <>
-      <button onClick={showDrawer}>Showdrawer</button>
       <Drawer
         title="Create a new account"
         width={720}

@@ -4,6 +4,7 @@ import HtmlParser from "react-html-parser";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  EDIT_PROJECT_FORM,
   GET_ALL_LIST,
   OPEN_EDIT_FORM,
   OPEN_MODAL,
@@ -171,6 +172,12 @@ export default function ProjectManagement(props) {
               };
               // Dispatch len reducer noi dung
               dispatch(action);
+              // dispatch present data to reducer
+              const actionEditProject = {
+                type: EDIT_PROJECT_FORM,
+                projectEditModel: record,
+              };
+              dispatch(actionEditProject);
             }}
           >
             <EditOutlined style={{ fontSize: 18 }} />

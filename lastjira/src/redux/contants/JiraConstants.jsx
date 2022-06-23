@@ -22,3 +22,6 @@ export const SET_SUBMIT_FORM = "SET_SUBMIT_EDIT_PROJECT";
 
 // EditFormProject Reducer
 export const EDIT_PROJECT_FORM = "EDIT_PROJECT_FORM";
+
+// PUT - Update Project Saga
+export const UPDATE_PROJECT = "UPDATE_PROJECT_SAGA";

@@ -57,4 +57,15 @@ export const JiraService = {
       },
     });
   },
+  updateProject: (projectUpdate) => {
+    return axios({
+      url: `${DOMAIN_LOGIN_JIRA}/Project/updateProject?projectId=${projectUpdate.id}`,
+      method: "PUT",
+      data: projectUpdate,
+      headers: {
+        Authorization: `Bearer ` + localStorage.getItem(ACCESS_TOKEN),
+        TokenCybersoft: TOKEN_CYBER,
+      },
+    });
+  },
 };

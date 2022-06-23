@@ -6,14 +6,15 @@ const initialState = {
     projectName: "string",
     creator: 0,
     description: "string",
-    categoryId: 1,
+    categoryId: "1",
   },
 };
 
 export const EditProjectReducer = (state = initialState, action) => {
   switch (action.type) {
     case EDIT_PROJECT_FORM: {
-      state.projectEdit = action.projectEdit;
+      state.projectEdit = action.projectEditModel;
+      return { ...state };
     }
     default:
       return { ...state };
