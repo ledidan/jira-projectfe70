@@ -25,3 +25,6 @@ export const EDIT_PROJECT_FORM = "EDIT_PROJECT_FORM";
 
 // PUT - Update Project Saga
 export const UPDATE_PROJECT = "UPDATE_PROJECT_SAGA";
+
+// DELETE - Delete Project saga
+export const DELETE_PROJECT = "DELETE_PROJECT_SAGA";

@@ -11,7 +11,7 @@ import {
 import { ACCESS_TOKEN, USER_LOGIN } from "../../util/JiraSystem";
 import { USER_SIGNIN_API, USLOGIN_ACTION } from "../contants/JiraConstants";
 import { HIDE_LOADING } from "../contants/DisplayLoading";
-import { JiraService } from "../types/services/JiraServices";
+import { JiraService } from "../services/JiraServices";
 
 import { history } from "../../util/history";
 import { Notification } from "../../util/Notification/notification";

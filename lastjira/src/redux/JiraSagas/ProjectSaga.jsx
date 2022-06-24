@@ -3,13 +3,15 @@ import { STATUS_CODE } from "../../util/JiraSystem";
 import {
   API_CREATE_PROJECT,
   CLOSE_MODAL,
+  DELETE_PROJECT,
   GET_ALL_LIST,
   UPDATE_PROJECT,
 } from "../contants/JiraConstants";
-import { JiraService } from "../types/services/JiraServices";
+import { JiraService } from "../services/JiraServices";
 import { DISPLAY_LOADING, HIDE_LOADING } from "../contants/DisplayLoading";
 import { history } from "../../util/history";
 import { Notification } from "../../util/Notification/notification";
+import { projectService } from "../services/ProServiceOOP";
 // Authorize khi khoi tao du an
 
 function* createProjectSaga(action) {
@@ -81,10 +83,6 @@ function* updateProjectSaga(action) {
 
     //   Goi API thanh cong thi dispatch len reducer thong qua put
     if (status === STATUS_CODE.SUCCESS) {
-      // yield put({
-      //   type: UPDATE_PROJECT,
-      //   projectUpdate: data.content,
-      // });
       console.log(data);
       Notification("success", "Update project successfully");
     }
@@ -104,4 +102,47 @@ function* updateProjectSaga(action) {
 }
 export function* listenUpdateProjectSaga() {
   yield takeLatest(UPDATE_PROJECT, updateProjectSaga);
+}
+
+// Delete project
+
+function* deleteProjectSaga(action) {
+  console.log("action", action);
+  //   Goi API lay du lieu ve
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+  try {
+    const { data, status } = yield call(() =>
+      projectService.deleteProject(action.idProject)
+    );
+
+    //   Goi API thanh cong thi dispatch len reducer thong qua put
+    if (status === STATUS_CODE.SUCCESS) {
+      Notification(
+        "success",
+        "Delete project successfully",
+        `You have deleted Project ID: ${action.idProject}`
+      );
+    } else {
+      Notification("error", "Failed to delete project !");
+    }
+    // Chay lai khi da update du lieu
+    yield put({
+      type: GET_ALL_LIST,
+    });
+    yield put({
+      type: CLOSE_MODAL,
+    });
+  } catch (err) {
+    console.info(err.config);
+    Notification("error", "Failed to delete project !");
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+export function* listenDeleteProjectSaga() {
+  yield takeLatest(DELETE_PROJECT, deleteProjectSaga);
 }

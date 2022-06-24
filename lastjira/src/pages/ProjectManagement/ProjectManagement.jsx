@@ -4,12 +4,20 @@ import HtmlParser from "react-html-parser";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  DELETE_PROJECT,
   EDIT_PROJECT_FORM,
   GET_ALL_LIST,
   OPEN_EDIT_FORM,
   OPEN_MODAL,
 } from "../../redux/contants/JiraConstants";
 import FormEditProject from "../../Component/Forms/FormEditProject/FormEditProject";
+import { message, Popconfirm } from "antd";
+
+const confirm = (e) => {
+  console.log(e);
+  message.success("Click on Yes");
+};
+
 const data = [
   {
     id: 5299,
@@ -118,16 +126,7 @@ export default function ProjectManagement(props) {
       },
       sortDirections: ["descend", "ascend"],
     },
-    // {
-    //   title: "description",
-    //   dataIndex: "description",
-    //   key: "description",
-    //   render: (text, record, index) => {
-    //     let jsxNode = HtmlParser(text);
 
-    //     return <div key={index}>{jsxNode}</div>;
-    //   },
-    // },
     {
       title: "category",
       dataIndex: "categoryName",
@@ -182,9 +181,22 @@ export default function ProjectManagement(props) {
           >
             <EditOutlined style={{ fontSize: 18 }} />
           </button>
-          <button className="btn btn-outline-danger ">
-            <DeleteOutlined style={{ fontSize: 18 }} />
-          </button>
+          <Popconfirm
+            title="Are you sure to delete this project?"
+            onConfirm={() => {
+              const actionDeleteProject = {
+                type: DELETE_PROJECT,
+                idProject: record.id,
+              };
+              dispatch(actionDeleteProject);
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <button className="btn btn-outline-danger ">
+              <DeleteOutlined style={{ fontSize: 18 }} />
+            </button>
+          </Popconfirm>
         </Space>
       ),
     },

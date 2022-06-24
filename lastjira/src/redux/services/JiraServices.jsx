@@ -3,7 +3,7 @@ import {
   DOMAIN_LOGIN_JIRA,
   TOKEN_CYBER,
   ACCESS_TOKEN,
-} from "../../../util/JiraSystem";
+} from "../../util/JiraSystem";
 
 export const JiraService = {
   signInJira: (userLogin) => {

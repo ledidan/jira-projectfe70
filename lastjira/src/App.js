@@ -8,7 +8,6 @@ import Home from "./pages/Home/Home";
 import Contact from "./pages/Contact/Contact";
 import About from "./pages/About/About";
 import Pricing from "./pages/Price/Pricing";
-import Service from "./pages/Service/Service";
 import { JiraDashboard } from "./Template/JiraDashboard";
 import IndexJira from "./Component/IndexJira";
 import CreateProjectJira from "./Component/CreateProject/CreateProjectJira";
@@ -32,7 +31,6 @@ function App() {
         <HomeTemplate path="/about" exact Component={About} />
         <HomeTemplate path="/contact" exact Component={Contact} />
         <HomeTemplate path="/price" exact Component={Pricing} />
-        <HomeTemplate path="/service" exact Component={Service} />
         <HomeTemplate path="/login" exact Component={LoginUI} />
         <HomeTemplate path="/" exact Component={Home} />
 
