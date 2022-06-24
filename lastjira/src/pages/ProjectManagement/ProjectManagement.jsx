@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag, Avatar } from "antd";
 import HtmlParser from "react-html-parser";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -156,6 +156,19 @@ export default function ProjectManagement(props) {
         return 1;
       },
       sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "members",
+      key: "members",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.map((item, index) => {
+              return <Avatar key={index} src={item.avatar} />;
+            })}
+          </div>
+        );
+      },
     },
     {
       title: "Action",
