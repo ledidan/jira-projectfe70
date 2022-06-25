@@ -13,6 +13,7 @@ import IndexJira from "./Component/IndexJira";
 import CreateProjectJira from "./Component/CreateProject/CreateProjectJira";
 import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 import ModalHOC from "./HOC/ModalHOC";
+import LoginTemplate from "./Template/LoginTemplate";
 function App() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -26,16 +27,22 @@ function App() {
       <ModalHOC />
       <Switch>
         {/* HomeTemplate */}
-
         <HomeTemplate path="/home" exact Component={Home} />
         <HomeTemplate path="/about" exact Component={About} />
         <HomeTemplate path="/contact" exact Component={Contact} />
         <HomeTemplate path="/price" exact Component={Pricing} />
-        <HomeTemplate path="/login" exact Component={LoginUI} />
         <HomeTemplate path="/" exact Component={Home} />
+
+        {/* Login Theme */}
+        <LoginTemplate path="/login" exact Component={LoginUI} />
 
         {/* JiraDashboard */}
         <JiraDashboard exact path="/dashboard" Component={IndexJira} />
+        <JiraDashboard
+          exact
+          path="/projectdetail/:projectId"
+          Component={IndexJira}
+        />
         <JiraDashboard
           exact
           path="/projectsetting"

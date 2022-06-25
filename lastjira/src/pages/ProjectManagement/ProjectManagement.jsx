@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, Avatar } from "antd";
-import HtmlParser from "react-html-parser";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button, Space, Table, Tag, Avatar, Popover, AutoComplete } from "antd";
+import { DeleteOutlined, EditOutlined, RestOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
   DELETE_PROJECT,
@@ -12,59 +11,7 @@ import {
 } from "../../redux/contants/JiraConstants";
 import FormEditProject from "../../Component/Forms/FormEditProject/FormEditProject";
 import { message, Popconfirm } from "antd";
-
-const confirm = (e) => {
-  console.log(e);
-  message.success("Click on Yes");
-};
-
-const data = [
-  {
-    id: 5299,
-    projectName: "Xoa hoai",
-    description: "<p>fsfklsfskf</p>",
-    categoryId: 1,
-    categoryName: "Dự án web",
-    alias: "xoa-hoai",
-    deleted: false,
-  },
-  {
-    id: 5305,
-    projectName: "Hello",
-    description: "<p>123</p>",
-    categoryId: 3,
-    categoryName: "Dự án di động",
-    alias: "hello",
-    deleted: false,
-  },
-  {
-    id: 5309,
-    projectName: "messi",
-    description: "<p>goal</p>",
-    categoryId: 1,
-    categoryName: "Dự án web",
-    alias: "messi",
-    deleted: false,
-  },
-  {
-    id: 5310,
-    projectName: "vietstock",
-    description: "<p>axczxc</p>",
-    categoryId: 1,
-    categoryName: "Dự án web",
-    alias: "vietstock",
-    deleted: false,
-  },
-  {
-    id: 5312,
-    projectName: "Project Test",
-    description: "<p>Hello 123</p>",
-    categoryId: 2,
-    categoryName: "Dự án phần mềm",
-    alias: "project-test",
-    deleted: false,
-  },
-];
+import { useRef } from "react";
 
 export default function ProjectManagement(props) {
   // Lay du lieu tu reducer ve Component
@@ -72,6 +19,7 @@ export default function ProjectManagement(props) {
   const projectList = useSelector(
     (state) => state.ProjectManagementReducer.projectList
   );
+  const { userSearch } = useSelector((state) => state.UserLoginJiraReducer);
   //  Use dispatch to call action
   const dispatch = useDispatch();
 
@@ -81,6 +29,9 @@ export default function ProjectManagement(props) {
 
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
+  const [value, setValue] = useState("");
+
+  const searchRef = useRef(null);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -161,11 +112,118 @@ export default function ProjectManagement(props) {
       title: "members",
       key: "members",
       render: (text, record, index) => {
+        const title = <p>Add member</p>;
+        const member = <span className="font-bold text-lg">Member Board</span>;
         return (
           <div>
-            {record.members?.map((item, index) => {
-              return <Avatar key={index} src={item.avatar} />;
+            {record.members?.slice(0, 3).map((item, index) => {
+              return (
+                <Popover
+                  placement="right"
+                  title={member}
+                  content={() => {
+                    return (
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Name</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {record.members?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.userId}</td>
+                                <td>
+                                  <img
+                                    src={item.avatar}
+                                    width={30}
+                                    height={30}
+                                    style={{ borderRadius: "15px" }}
+                                  ></img>
+                                </td>
+                                <td>{item.name}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-danger "
+                                    onClick={() => {
+                                      dispatch({
+                                        type: "REMOVE_USER_PROJECT_API",
+                                        userProject: {
+                                          userId: item.userId,
+                                          projectId: record.id,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <DeleteOutlined />
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    );
+                  }}
+                >
+                  <Avatar key={index} src={item.avatar} />
+                </Popover>
+              );
             })}
+            {record.members?.length > 3 ? (
+              <Avatar style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}>
+                ...
+              </Avatar>
+            ) : (
+              ""
+            )}
+            <Popover
+              placement="rightTop"
+              title={title}
+              content={() => (
+                <AutoComplete
+                  options={userSearch?.map((user, index) => {
+                    return { label: user.name, value: user.userId.toString() };
+                  })}
+                  value={value}
+                  style={{
+                    width: 200,
+                  }}
+                  onChange={(text) => {
+                    setValue(text);
+                  }}
+                  onSelect={(valueSelect, option) => {
+                    // Set gia tri cua hop thoai = option.label
+                    setValue(option.label);
+
+                    // Call API ADD USER gui ve backend
+                    dispatch({
+                      type: "ADD_USER_PROJECT_API",
+                      userProject: {
+                        projectId: record.id,
+                        userId: valueSelect,
+                      },
+                    });
+                  }}
+                  onSearch={(value) => {
+                    if (searchRef.current) {
+                      clearTimeout(searchRef.current);
+                    }
+                    searchRef.current = setTimeout(() => {
+                      dispatch({ type: "GET_USER_API", keyWord: value });
+                    }, 300);
+                  }}
+                  placeholder="Enter members'name"
+                />
+              )}
+              trigger="click"
+            >
+              <Button style={{ borderRadius: "10%" }}>+</Button>
+            </Popover>
           </div>
         );
       },

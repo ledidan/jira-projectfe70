@@ -6,12 +6,17 @@ if (localStorage.getItem(USER_LOGIN)) {
 }
 const stateDefault = {
   userLogin: UsLogin,
+  userSearch: [],
 };
 
 export const UserLoginJiraReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case USER_LOGIN: {
       state.userLogin = action.userLogin;
+      return { ...state };
+    }
+    case "GET_USER_SEARCH": {
+      state.userSearch = action.lstUserSearch;
       return { ...state };
     }
     default:
