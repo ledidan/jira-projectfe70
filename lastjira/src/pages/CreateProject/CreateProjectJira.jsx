@@ -61,7 +61,7 @@ function CreateProjectJira(props) {
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue=""
             init={{
-              height: 500,
+              height: 300,
               menubar: false,
               plugins: [
                 "advlist",

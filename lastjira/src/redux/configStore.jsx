@@ -8,24 +8,29 @@ import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 import { ProjectManagementReducer } from "./reducers/ProjectManagementReducer";
 import { ModalHOCReducer } from "./reducers/ModalHOCReducer";
 import { ProjectReducer } from "./reducers/ProjectReducer";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import { history } from "../util/history";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
     : compose;
+
 const middleWareSaga = createMiddleWareSaga();
 
-const rootReducer = combineReducers({
-  JiraReducer,
-  HistoryReducer,
-  UserLoginJiraReducer,
-  ProjectCategoryReducer,
-  ProjectManagementReducer,
-  ModalHOCReducer,
-  ProjectReducer,
-});
+const rootReducer = (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    JiraReducer,
+    HistoryReducer,
+    UserLoginJiraReducer,
+    ProjectCategoryReducer,
+    ProjectManagementReducer,
+    ModalHOCReducer,
+    ProjectReducer,
+  });
 
 export const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(middleWareSaga))
+  rootReducer(history),
+  composeEnhancers(applyMiddleware(middleWareSaga, routerMiddleware(history)))
 );
 middleWareSaga.run(rootSaga);

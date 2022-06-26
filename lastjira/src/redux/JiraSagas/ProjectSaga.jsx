@@ -17,7 +17,6 @@ import { projectService } from "../services/ProServiceOOP";
 // Authorize khi khoi tao du an
 
 function* createProjectSaga(action) {
-  console.log("actionCreateProject", action);
   // Hien thi loading
   yield put({
     type: DISPLAY_LOADING,
@@ -32,7 +31,6 @@ function* createProjectSaga(action) {
 
     //   Goi API thanh cong thi dispatch len reducer thong qua put
     if (status === STATUS_CODE.SUCCESS) {
-      console.log(data);
       Notification("success", "Add project successfully !");
       history.push("/project-management");
     }
@@ -72,7 +70,6 @@ export function* listenGetListProjectSaga() {
 
 // Update Project
 function* updateProjectSaga(action) {
-  console.log("action", action);
   //   Goi API lay du lieu ve
   yield put({
     type: DISPLAY_LOADING,
@@ -85,7 +82,6 @@ function* updateProjectSaga(action) {
 
     //   Goi API thanh cong thi dispatch len reducer thong qua put
     if (status === STATUS_CODE.SUCCESS) {
-      console.log(data);
       Notification("success", "Update project successfully");
     }
     // Chay lai khi da update du lieu
@@ -109,7 +105,6 @@ export function* listenUpdateProjectSaga() {
 // Delete project
 
 function* deleteProjectSaga(action) {
-  console.log("action", action);
   //   Goi API lay du lieu ve
   yield put({
     type: DISPLAY_LOADING,
@@ -161,7 +156,6 @@ function* getProjectDetailSaga(action) {
     const { data, status } = yield call(() =>
       projectService.getProjectDetail(action.projectId)
     );
-
     yield put({
       type: PUT_PROJECT_DETAIL,
       projectDetail: data.content,
@@ -169,6 +163,7 @@ function* getProjectDetailSaga(action) {
   } catch (err) {
     console.info(err.config);
     Notification("error", "Failed to Load Project !");
+    history.push("/project-management");
   }
   yield put({
     type: HIDE_LOADING,

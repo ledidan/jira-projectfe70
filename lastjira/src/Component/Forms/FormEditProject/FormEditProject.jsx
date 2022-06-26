@@ -165,7 +165,7 @@ const FormEditProjectJiraFormik = withFormik({
 })(FormEditProject);
 
 const mapStateToProps = (state) => ({
-  projectEdit: state.EditProjectReducer.projectEdit,
+  projectEdit: state.ProjectReducer.projectEdit,
 });
 
 export default connect(mapStateToProps)(FormEditProjectJiraFormik);

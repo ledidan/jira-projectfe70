@@ -38,7 +38,6 @@ export default function ProjectManagement(props) {
   const searchRef = useRef(null);
 
   const handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter);
   };
@@ -130,7 +129,7 @@ export default function ProjectManagement(props) {
                   title={member}
                   content={() => {
                     return (
-                      <table className="table">
+                      <table className="table" key={index}>
                         <thead>
                           <tr>
                             <th>ID</th>
@@ -229,7 +228,7 @@ export default function ProjectManagement(props) {
               )}
               trigger="click"
             >
-              <Button style={{ borderRadius: "10%" }}>+</Button>
+              <Button style={{ borderRadius: "50%" }}>+</Button>
             </Popover>
           </div>
         );

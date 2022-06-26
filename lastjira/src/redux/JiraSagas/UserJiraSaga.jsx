@@ -58,8 +58,6 @@ export function* listenUserSignIn() {
 
 //  GET USER ON SEARCH
 function* getUserSaga(action) {
-  // action.keyword
-  console.log("action", action.keyWord);
   // Call API
   try {
     const { data, status } = yield call(() =>
@@ -69,7 +67,6 @@ function* getUserSaga(action) {
       type: GET_SEARCH_USER,
       lstUserSearch: data.content,
     });
-    console.log("data", data);
   } catch (err) {
     console.info(err?.config);
   }

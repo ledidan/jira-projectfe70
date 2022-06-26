@@ -1,10 +1,8 @@
 import "./App.css";
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoginUI from "./pages/Login/LoginUI";
-import HomeTemplate from "./Template/HomeTemplate";
-import Home from "./pages/Home/Home";
 import { JiraDashboard } from "./Template/JiraDashboard";
 import IndexJira from "./Component/IndexJira";
 import CreateProjectJira from "./pages/CreateProject/CreateProjectJira";
@@ -23,13 +21,9 @@ function App() {
     <BrowserRouter>
       <ModalHOC />
       <Switch>
-        {/* HomeTemplate */}
-        <HomeTemplate path="/home" exact Component={Home} />
-        <HomeTemplate path="/" exact Component={Home} />
-
         {/* Login Theme */}
         <LoginTemplate path="/login" exact Component={LoginUI} />
-
+        <LoginTemplate path="/" exact Component={LoginUI} />
         {/* JiraDashboard */}
         <JiraDashboard exact path="/dashboard" Component={IndexJira} />
         <JiraDashboard

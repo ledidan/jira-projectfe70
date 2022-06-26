@@ -11,7 +11,9 @@ const initialState = {
     description: "string",
     categoryId: "1",
   },
-  projectDetail: {},
+  projectDetail: {
+    members: [],
+  },
 };
 
 export const ProjectReducer = (state = initialState, action) => {
