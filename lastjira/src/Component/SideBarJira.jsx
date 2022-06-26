@@ -12,8 +12,9 @@ const { Header, Sider } = Layout;
 
 export default function SideBarJira() {
   const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <Layout>
+    <Layout style={{ flex: "none" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="text-right text-white text-lg">
           {React.createElement(

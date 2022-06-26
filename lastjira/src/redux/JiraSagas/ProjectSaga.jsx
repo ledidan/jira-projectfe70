@@ -5,6 +5,8 @@ import {
   CLOSE_MODAL,
   DELETE_PROJECT,
   GET_ALL_LIST,
+  GET_PROJECT_DETAIL,
+  PUT_PROJECT_DETAIL,
   UPDATE_PROJECT,
 } from "../contants/JiraConstants";
 import { JiraService } from "../services/JiraServices";
@@ -31,8 +33,8 @@ function* createProjectSaga(action) {
     //   Goi API thanh cong thi dispatch len reducer thong qua put
     if (status === STATUS_CODE.SUCCESS) {
       console.log(data);
-      //   history.push("/project-management");
       Notification("success", "Add project successfully !");
+      history.push("/project-management");
     }
   } catch (err) {
     console.info(err.config);
@@ -145,4 +147,33 @@ function* deleteProjectSaga(action) {
 }
 export function* listenDeleteProjectSaga() {
   yield takeLatest(DELETE_PROJECT, deleteProjectSaga);
+}
+
+// GET PROJECT DETAIL
+function* getProjectDetailSaga(action) {
+  //   Goi API lay du lieu ve
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+
+  try {
+    const { data, status } = yield call(() =>
+      projectService.getProjectDetail(action.projectId)
+    );
+
+    yield put({
+      type: PUT_PROJECT_DETAIL,
+      projectDetail: data.content,
+    });
+  } catch (err) {
+    console.info(err.config);
+    Notification("error", "Failed to Load Project !");
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+export function* listenGetProjectDetailSaga() {
+  yield takeLatest(GET_PROJECT_DETAIL, getProjectDetailSaga);
 }

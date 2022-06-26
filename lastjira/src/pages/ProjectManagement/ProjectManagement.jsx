@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Button, Space, Table, Tag, Avatar, Popover, AutoComplete } from "antd";
 import { DeleteOutlined, EditOutlined, RestOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import {
+  ADD_USER_PROJECT,
   DELETE_PROJECT,
   EDIT_PROJECT_FORM,
   GET_ALL_LIST,
+  GET_USER_API,
   OPEN_EDIT_FORM,
   OPEN_MODAL,
+  REMOVE_USER_PROJECT,
 } from "../../redux/contants/JiraConstants";
 import FormEditProject from "../../Component/Forms/FormEditProject/FormEditProject";
 import { message, Popconfirm } from "antd";
@@ -67,6 +71,9 @@ export default function ProjectManagement(props) {
       title: "projectName",
       dataIndex: "projectName",
       key: "projectName",
+      render: (text, record, index) => {
+        return <NavLink to={`/projectdetail/${record.id}`}>{text}</NavLink>;
+      },
       sorter: (item2, item1) => {
         let projectName1 = item1.projectName?.trim().toLowerCase();
         let projectName2 = item2.projectName?.trim().toLowerCase();
@@ -151,7 +158,7 @@ export default function ProjectManagement(props) {
                                     className="btn btn-danger "
                                     onClick={() => {
                                       dispatch({
-                                        type: "REMOVE_USER_PROJECT_API",
+                                        type: REMOVE_USER_PROJECT,
                                         userProject: {
                                           userId: item.userId,
                                           projectId: record.id,
@@ -202,7 +209,7 @@ export default function ProjectManagement(props) {
 
                     // Call API ADD USER gui ve backend
                     dispatch({
-                      type: "ADD_USER_PROJECT_API",
+                      type: ADD_USER_PROJECT,
                       userProject: {
                         projectId: record.id,
                         userId: valueSelect,
@@ -214,7 +221,7 @@ export default function ProjectManagement(props) {
                       clearTimeout(searchRef.current);
                     }
                     searchRef.current = setTimeout(() => {
-                      dispatch({ type: "GET_USER_API", keyWord: value });
+                      dispatch({ type: GET_USER_API, keyWord: value });
                     }, 300);
                   }}
                   placeholder="Enter members'name"

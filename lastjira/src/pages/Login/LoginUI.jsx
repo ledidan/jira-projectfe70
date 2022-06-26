@@ -34,7 +34,7 @@ function LoginUI(props) {
         </div>
         <div className="flex text-center flex-col w-96 py-5 px-5 shadow-lg shadow-slate-200">
           <h3 className="text-center text-2xl">Log in to continue to:</h3>
-          <p className="font-bold text-lg">Your's Dasboard</p>
+          <p className="font-bold text-lg">Your's Dashboard</p>
           <div className="flex mt-3">
             <Input
               onChange={handleChange}

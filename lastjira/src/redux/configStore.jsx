@@ -7,7 +7,7 @@ import { UserLoginJiraReducer } from "./reducers/UserJiraReducer";
 import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 import { ProjectManagementReducer } from "./reducers/ProjectManagementReducer";
 import { ModalHOCReducer } from "./reducers/ModalHOCReducer";
-import { EditProjectReducer } from "./reducers/EditProjectReducer";
+import { ProjectReducer } from "./reducers/ProjectReducer";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   ProjectCategoryReducer,
   ProjectManagementReducer,
   ModalHOCReducer,
-  EditProjectReducer,
+  ProjectReducer,
 });
 
 export const store = createStore(

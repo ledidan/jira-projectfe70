@@ -15,7 +15,11 @@ import { DISPLAY_LOADING, HIDE_LOADING } from "../contants/DisplayLoading";
 import { JiraService } from "../services/JiraServices";
 import { ACCESS_TOKEN, STATUS_CODE, USER_LOGIN } from "../../util/JiraSystem";
 import {
+  ADD_USER_PROJECT,
   GET_ALL_LIST,
+  GET_SEARCH_USER,
+  GET_USER_API,
+  REMOVE_USER_PROJECT,
   USER_SIGNIN_API,
   USLOGIN_ACTION,
 } from "../contants/JiraConstants";
@@ -62,17 +66,17 @@ function* getUserSaga(action) {
       userService.getUser(action.keyWord)
     );
     yield put({
-      type: "GET_USER_SEARCH",
+      type: GET_SEARCH_USER,
       lstUserSearch: data.content,
     });
     console.log("data", data);
   } catch (err) {
-    console.log(err?.config);
+    console.info(err?.config);
   }
 }
 
 export function* listenToGetUser() {
-  yield takeLatest("GET_USER_API", getUserSaga);
+  yield takeLatest(GET_USER_API, getUserSaga);
 }
 
 // ADD USER PROJECT
@@ -89,13 +93,13 @@ function* addUserProjectSaga(action) {
       Notification("success", "Add User Successfully");
     }
   } catch (err) {
-    console.log(err?.config);
+    console.info(err?.config);
     Notification("error", "User Not Found !");
   }
 }
 
 export function* listenAddUserProject() {
-  yield takeLatest("ADD_USER_PROJECT_API", addUserProjectSaga);
+  yield takeLatest(ADD_USER_PROJECT, addUserProjectSaga);
 }
 
 // DELETE USER FROM PROJECT
@@ -119,5 +123,5 @@ function* removeUserProjectSaga(action) {
 }
 
 export function* listenRemoveUserProject() {
-  yield takeLatest("REMOVE_USER_PROJECT_API", removeUserProjectSaga);
+  yield takeLatest(REMOVE_USER_PROJECT, removeUserProjectSaga);
 }
