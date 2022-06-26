@@ -14,9 +14,8 @@ import {
 import { OPEN_MODAL, CLOSE_MODAL } from "../redux/contants/JiraConstants";
 import { useSelector, useDispatch } from "react-redux";
 export default function ModalHOC(props) {
-  const { visible, ComponentContentDrawer, callBackSubmit } = useSelector(
-    (state) => state.ModalHOCReducer
-  );
+  const { visible, ComponentContentDrawer, callBackSubmit, title } =
+    useSelector((state) => state.ModalHOCReducer);
   const dispatch = useDispatch();
 
   const showDrawer = () => {
@@ -30,7 +29,7 @@ export default function ModalHOC(props) {
   return (
     <>
       <Drawer
-        title="Create a new account"
+        title={title}
         width={720}
         onClose={onClose}
         visible={visible}

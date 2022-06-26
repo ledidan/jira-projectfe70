@@ -5,6 +5,8 @@ import {
   CLOSE_MODAL,
   DELETE_PROJECT,
   GET_ALL_LIST,
+  GET_ALL_PROJECT,
+  GET_ALL_PROJECT_REDUCER,
   GET_PROJECT_DETAIL,
   PUT_PROJECT_DETAIL,
   UPDATE_PROJECT,
@@ -171,4 +173,30 @@ function* getProjectDetailSaga(action) {
 }
 export function* listenGetProjectDetailSaga() {
   yield takeLatest(GET_PROJECT_DETAIL, getProjectDetailSaga);
+}
+
+// GET All Project
+function* getAllProjectSaga(action) {
+  //   Goi API lay du lieu ve
+  yield put({
+    type: DISPLAY_LOADING,
+  });
+  yield delay(500);
+
+  try {
+    const { data, status } = yield call(() => projectService.getAllProject());
+    yield put({
+      type: GET_ALL_PROJECT_REDUCER,
+      arrProject: data.content,
+    });
+  } catch (err) {
+    console.info(err.config);
+    Notification("error", "Failed to Load Project !");
+  }
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+export function* listenGetAllProjectSaga() {
+  yield takeLatest(GET_ALL_PROJECT, getAllProjectSaga);
 }

@@ -9,6 +9,7 @@ import * as getUserProject from "./UserJiraSaga";
 import * as addUserProject from "./UserJiraSaga";
 import * as removeUserProject from "./UserJiraSaga";
 import * as getProjectDetail from "./ProjectSaga";
+import * as getAllProject from "./ProjectSaga";
 export default function* rootSaga() {
   yield all([
     UserLogIn.listenUserSignIn(),
@@ -21,5 +22,6 @@ export default function* rootSaga() {
     addUserProject.listenAddUserProject(),
     removeUserProject.listenRemoveUserProject(),
     getProjectDetail.listenGetProjectDetailSaga(),
+    getAllProject.listenGetAllProjectSaga(),
   ]);
 }

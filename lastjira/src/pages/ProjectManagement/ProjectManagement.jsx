@@ -244,6 +244,7 @@ export default function ProjectManagement(props) {
             onClick={() => {
               const action = {
                 type: OPEN_EDIT_FORM,
+                title: "Edit Project",
                 Component: <FormEditProject />,
               };
               // Dispatch len reducer noi dung
