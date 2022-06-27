@@ -1,8 +1,22 @@
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Select, Slider } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-export default function FormCreateTask(props) {
+import { connect, useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import {
+  GET_ALL_PROJECT,
+  GET_SEARCH_USER,
+  GET_USER_API,
+} from "../../../redux/contants/JiraConstants";
+import {
+  CREATE_TASK_SAGA,
+  GET_ALL_TASK_TYPE_SAGA,
+} from "../../../redux/contants/TaskTypeConstant";
+import { GET_ALL_PRIORITY_SAGA } from "../../../redux/contants/PriorityConstants";
+import { withFormik } from "formik";
+import { GET_STATUS_SAGA } from "../../../redux/contants/StatusConstants";
+
+function FormCreateTask(props) {
   // Editor
   const editorRef = useRef(null);
   const log = () => {
@@ -10,62 +24,117 @@ export default function FormCreateTask(props) {
       console.log(editorRef.current.getContent());
     }
   };
-
+  const dispatch = useDispatch();
   // Select multiple choices of Antd
   const { Option } = Select;
-
   const children = [];
+
   for (let i = 10; i < 36; i++) {
     children.push(
       <Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>
     );
   }
 
-  function handleChange(value) {
-    console.log(`Selected: ${value}`);
-  }
+  const { handleChange, handleSubmit, setFieldValue, values } = props;
 
-  const [size, setSize] = useState("default");
+  const { arrProject } = useSelector((state) => state.ProjectManagementReducer);
+  const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+  const { arrPriority } = useSelector((state) => state.PriorityReducer);
+  const { arrUser } = useSelector((state) => state.UserLoginJiraReducer);
+  const { arrStatus } = useSelector((state) => state.StatusReducer);
+  const userOptions = arrUser.map((item, index) => {
+    return { value: item.userId, label: item.name };
+  });
+  //  Hook
+  useEffect(() => {
+    dispatch({ type: GET_ALL_PROJECT });
+    dispatch({ type: GET_ALL_TASK_TYPE_SAGA });
+    dispatch({ type: GET_ALL_PRIORITY_SAGA });
+    dispatch({ type: GET_STATUS_SAGA });
+    dispatch({ type: GET_USER_API, keyWord: "" });
+  }, [arrProject]);
+
+  const [size, setSize] = React.useState("default");
   const [timeTracking, setTimeTracking] = useState({
     timeTrackingSpent: 5,
     timeTrackingRemaining: 5,
   });
-  const { arrProject } = useSelector;
+  // Lay du lieu tu redux
+
   return (
-    <div className="container">
-      <h3>Create Task</h3>
+    <form className="container" onSubmit={handleSubmit}>
       <div className="form-group">
         <h6>Project</h6>
-        <select name="projectId" className="form-control">
-          <option value="1">Project A</option>
-          <option value="2">Project B</option>
+        <select
+          name="projectId"
+          className="form-control"
+          onChange={handleChange}
+        >
+          {arrProject?.map((project, index) => {
+            return (
+              <option key={index} value={project.id}>
+                {project.projectName}
+              </option>
+            );
+          })}
         </select>
       </div>
       <div className="form-group">
         <h6>Task name</h6>
-        <input className="form-control" name="taskName" />
+        <input
+          className="form-control"
+          name="taskName"
+          onChange={handleChange}
+        />
       </div>
       <div className="form-group">
         <h6>Status</h6>
-        <select name="statusId" className="form-control">
-          <option value="3">Backlog 1</option>
-          <option value="4">Backlog 2</option>
+        <select
+          name="statusId"
+          className="form-control"
+          onChange={handleChange}
+        >
+          {arrStatus.map((status, index) => {
+            return (
+              <option value={status.statusId} key={index}>
+                {status.statusName}
+              </option>
+            );
+          })}
         </select>
       </div>
       <div className="form-group">
         <div className="row">
           <div className="col-6">
             <h6>Priority</h6>
-            <select name="priorityId" className="form-control">
-              <option>Urgent</option>
-              <option>High</option>
+            <select
+              name="priorityId"
+              className="form-control"
+              onChange={handleChange}
+            >
+              {arrPriority.map((Priority, index) => {
+                return (
+                  <option value={Priority.priorityId} key={index}>
+                    {Priority.priority}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className="col-6">
             <h6>Task type</h6>
-            <select name="typeId" className="form-control">
-              <option>New task</option>
-              <option>Bugs</option>
+            <select
+              name="typeId"
+              className="form-control"
+              onChange={handleChange}
+            >
+              {arrTaskType.map((TaskType, index) => {
+                return (
+                  <option value={TaskType.id} key={index}>
+                    {TaskType.taskType}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -78,10 +147,15 @@ export default function FormCreateTask(props) {
               mode="multiple"
               size={size}
               placeholder="Please select"
-              defaultValue={["a10", "c12"]}
-              onChange={handleChange}
+              options={userOptions}
+              optionFilterProp="label"
               style={{ width: "100%" }}
-              name="listUserAsign"
+              onSearch={(value) => {
+                console.log(value);
+              }}
+              onChange={(values) => {
+                setFieldValue("listUserAsign", values);
+              }}
             >
               {children}
             </Select>
@@ -117,6 +191,7 @@ export default function FormCreateTask(props) {
               name="originalEstimate"
               defaultValue="0"
               min="0"
+              onChange={handleChange}
             />
           </div>
           <div className="col-6">
@@ -134,6 +209,7 @@ export default function FormCreateTask(props) {
                       ...timeTracking,
                       timeTrackingSpent: e.target.value,
                     });
+                    setFieldValue("timeTrackingSpent", e.target.value);
                   }}
                 />
               </div>
@@ -150,6 +226,7 @@ export default function FormCreateTask(props) {
                       ...timeTracking,
                       timeTrackingRemaining: e.target.value,
                     });
+                    setFieldValue("timeTrackingRemaining", e.target.value);
                   }}
                 />
               </div>
@@ -179,8 +256,57 @@ export default function FormCreateTask(props) {
             content_style:
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
+          onEditorChange={(content, editor) => {
+            setFieldValue("description", content);
+          }}
         />
       </div>
-    </div>
+      <button type="submit">Submit</button>
+    </form>
   );
 }
+
+const FormCreateTaskFormik = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: (props) => {
+    const { arrProject, arrTaskType, arrPriority, arrUser, arrStatus } = props;
+    return {
+      taskName: "",
+      description: "",
+      statusId: arrStatus[0]?.id,
+      originalEstimate: 0,
+      timeTrackingSpent: 0,
+      timeTrackingRemaining: 0,
+      projectId: arrProject[0]?.id,
+      typeId: arrTaskType[0]?.id,
+      priorityId: arrPriority[0]?.priorityId,
+      listUserAsign: [],
+    };
+  },
+  validationSchema: Yup.object().shape({
+    // form validation
+  }),
+  handleSubmit: (values, { props, setSubmiting }) => {
+    props.dispatch({ type: CREATE_TASK_SAGA, taskObject: values });
+    console.log("taskObject", values);
+  },
+
+  displayName: "FormCreateTaskFormik",
+})(FormCreateTask);
+// const { arrProject } = useSelector((state) => state.ProjectManagementReducer);
+//   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+//   const { arrPriority } = useSelector((state) => state.PriorityReducer);
+//   const { userSearch } = useSelector((state) => state.UserLoginJiraReducer);
+//   const { arrStatus } = useSelector((state) => state.StatusReducer);
+
+const mapStateToProps = (state) => {
+  return {
+    arrProject: state.ProjectManagementReducer.arrProject,
+    arrTaskType: state.TaskTypeReducer.arrTaskType,
+    arrPriority: state.PriorityReducer.arrPriority,
+    userSearch: state.UserLoginJiraReducer.userSearch,
+    arrStatus: state.StatusReducer.arrStatus,
+  };
+};
+
+export default connect(mapStateToProps)(FormCreateTaskFormik);

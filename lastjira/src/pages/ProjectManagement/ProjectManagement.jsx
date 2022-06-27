@@ -296,6 +296,7 @@ export default function ProjectManagement(props) {
         dataSource={projectList}
         onChange={handleChange}
         rowKey={"id"}
+        cellKey={"id"}
       />
     </div>
   );

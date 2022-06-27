@@ -8,8 +8,9 @@ import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 import { ProjectManagementReducer } from "./reducers/ProjectManagementReducer";
 import { ModalHOCReducer } from "./reducers/ModalHOCReducer";
 import { ProjectReducer } from "./reducers/ProjectReducer";
-import { connectRouter, routerMiddleware } from "connected-react-router";
-import { history } from "../util/history";
+import { TaskTypeReducer } from "./reducers/TaskTypeReducer";
+import { PriorityReducer } from "./reducers/PriorityReducer";
+import { StatusReducer } from "./reducers/StatusReducer";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
@@ -17,20 +18,21 @@ const composeEnhancers =
 
 const middleWareSaga = createMiddleWareSaga();
 
-const rootReducer = (history) =>
-  combineReducers({
-    router: connectRouter(history),
-    JiraReducer,
-    HistoryReducer,
-    UserLoginJiraReducer,
-    ProjectCategoryReducer,
-    ProjectManagementReducer,
-    ModalHOCReducer,
-    ProjectReducer,
-  });
+const rootReducer = combineReducers({
+  JiraReducer,
+  HistoryReducer,
+  UserLoginJiraReducer,
+  ProjectCategoryReducer,
+  ProjectManagementReducer,
+  ModalHOCReducer,
+  ProjectReducer,
+  TaskTypeReducer,
+  PriorityReducer,
+  StatusReducer,
+});
 
 export const store = createStore(
-  rootReducer(history),
-  composeEnhancers(applyMiddleware(middleWareSaga, routerMiddleware(history)))
+  rootReducer,
+  composeEnhancers(applyMiddleware(middleWareSaga))
 );
 middleWareSaga.run(rootSaga);

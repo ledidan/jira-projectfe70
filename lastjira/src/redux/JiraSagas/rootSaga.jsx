@@ -10,6 +10,10 @@ import * as addUserProject from "./UserJiraSaga";
 import * as removeUserProject from "./UserJiraSaga";
 import * as getProjectDetail from "./ProjectSaga";
 import * as getAllProject from "./ProjectSaga";
+import * as getAllTaskType from "./TaskTypeSaga";
+import * as getAllPriority from "./PrioritySaga";
+import * as createTask from "./TaskSaga";
+import * as getStatus from "./StatusSaga";
 export default function* rootSaga() {
   yield all([
     UserLogIn.listenUserSignIn(),
@@ -23,5 +27,9 @@ export default function* rootSaga() {
     removeUserProject.listenRemoveUserProject(),
     getProjectDetail.listenGetProjectDetailSaga(),
     getAllProject.listenGetAllProjectSaga(),
+    getAllTaskType.listenGetAllTaskTypeSaga(),
+    getAllPriority.listenGetAllProjectSaga(),
+    createTask.listenCreateTaskSaga(),
+    getStatus.listenGetStatusSaga(),
   ]);
 }

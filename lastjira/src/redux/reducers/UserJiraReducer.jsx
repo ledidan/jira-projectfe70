@@ -8,6 +8,7 @@ if (localStorage.getItem(USER_LOGIN)) {
 const stateDefault = {
   userLogin: UsLogin,
   userSearch: [],
+  arrUser: [],
 };
 
 export const UserLoginJiraReducer = (state = stateDefault, action) => {
