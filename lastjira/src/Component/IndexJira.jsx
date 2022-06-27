@@ -21,7 +21,7 @@ export default function IndexJira(props) {
       dispatch({ type: GET_PROJECT_DETAIL, projectId });
     }, 300);
   }, []);
-
+  console.log(projectDetail);
   return (
     <div className="main">
       <HeaderMain projectDetail={projectDetail} />

@@ -23,6 +23,10 @@ import {
   USER_SIGNIN_API,
   USLOGIN_ACTION,
 } from "../contants/JiraConstants";
+import {
+  GET_USER_BY_PROJECT_REDUCER,
+  GET_USER_BY_PROJECT_SAGA,
+} from "../contants/UserConstants";
 
 // LOGIN API
 function* signInJira(action) {
@@ -121,4 +125,34 @@ function* removeUserProjectSaga(action) {
 
 export function* listenRemoveUserProject() {
   yield takeLatest(REMOVE_USER_PROJECT, removeUserProjectSaga);
+}
+
+// GET USER BY PROJECT
+function* getUserByProjectSaga(action) {
+  const { idProject } = action;
+
+  try {
+    const { data, status } = yield call(() =>
+      userService.getUserByProject(idProject)
+    );
+
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_USER_BY_PROJECT_REDUCER,
+        arrUser: data.content,
+      });
+    }
+  } catch (err) {
+    console.log(err.response?.data);
+    if (err.response?.data.statusCode === STATUS_CODE.NOT_FOUND) {
+      yield put({
+        type: GET_USER_BY_PROJECT_REDUCER,
+        arrUser: [],
+      });
+    }
+  }
+}
+
+export function* listenGetUserByProjectSaga() {
+  yield takeLatest(GET_USER_BY_PROJECT_SAGA, getUserByProjectSaga);
 }

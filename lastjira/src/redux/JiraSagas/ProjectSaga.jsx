@@ -16,6 +16,7 @@ import { DISPLAY_LOADING, HIDE_LOADING } from "../contants/DisplayLoading";
 import { history } from "../../util/history";
 import { Notification } from "../../util/Notification/notification";
 import { projectService } from "../services/ProServiceOOP";
+import { GET_USER_BY_PROJECT_SAGA } from "../contants/UserConstants";
 // Authorize khi khoi tao du an
 
 function* createProjectSaga(action) {
@@ -60,6 +61,10 @@ function* getListProjectSaga() {
       yield put({
         type: GET_ALL_LIST,
         projectList: data.content,
+      });
+      yield put({
+        type: GET_USER_BY_PROJECT_SAGA,
+        idProject: data.content[0].id,
       });
     }
   } catch (err) {
@@ -190,7 +195,7 @@ function* getAllProjectSaga(action) {
       arrProject: data.content,
     });
   } catch (err) {
-    console.info(err.config);
+    console.info(err.response?.data);
     Notification("error", "Failed to Load Project !");
   }
   yield put({

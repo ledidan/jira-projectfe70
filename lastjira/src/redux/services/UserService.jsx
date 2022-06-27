@@ -5,14 +5,17 @@ export class UserService extends baseService {
     super();
   }
   getUser = (keyWord) => {
-    return this.get(`/Users/getUser?keyword=${keyWord}`);
+    return this.get(`Users/getUser?keyword=${keyWord}`);
   };
 
   assignUserProject = (userProject) => {
-    return this.post(`/Project/assignUserProject`, userProject);
+    return this.post(`Project/assignUserProject`, userProject);
   };
   removeUserProject = (userProject) => {
-    return this.post(`/Project/removeUserFromProject`, userProject);
+    return this.post(`Project/removeUserFromProject`, userProject);
+  };
+  getUserByProject = (idProject) => {
+    return this.get(`Users/getUserByProjectId?idProject=${idProject}`);
   };
 }
 

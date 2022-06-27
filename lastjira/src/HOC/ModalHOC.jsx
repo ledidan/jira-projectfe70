@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 export default function ModalHOC(props) {
   const { visible, ComponentContentDrawer, callBackSubmit, title } =
     useSelector((state) => state.ModalHOCReducer);
+
   const dispatch = useDispatch();
 
   const showDrawer = () => {

@@ -11,10 +11,12 @@ import {
 import {
   CREATE_TASK_SAGA,
   GET_ALL_TASK_TYPE_SAGA,
+  SET_SUBMIT_CREATE_TASK,
 } from "../../../redux/contants/TaskTypeConstant";
 import { GET_ALL_PRIORITY_SAGA } from "../../../redux/contants/PriorityConstants";
 import { withFormik } from "formik";
 import { GET_STATUS_SAGA } from "../../../redux/contants/StatusConstants";
+import { GET_USER_BY_PROJECT_SAGA } from "../../../redux/contants/UserConstants";
 
 function FormCreateTask(props) {
   // Editor
@@ -52,8 +54,9 @@ function FormCreateTask(props) {
     dispatch({ type: GET_ALL_PRIORITY_SAGA });
     dispatch({ type: GET_STATUS_SAGA });
     dispatch({ type: GET_USER_API, keyWord: "" });
+    // đưa hàm handleSubmit lên drawer reducer để cập nhật lại sự kiện cho nút submit
+    dispatch({ type: SET_SUBMIT_CREATE_TASK, submitFunction: handleSubmit });
   }, [arrProject]);
-
   const [size, setSize] = React.useState("default");
   const [timeTracking, setTimeTracking] = useState({
     timeTrackingSpent: 5,
@@ -68,7 +71,16 @@ function FormCreateTask(props) {
         <select
           name="projectId"
           className="form-control"
-          onChange={handleChange}
+          onChange={(e) => {
+            // dispatch gia tri lam thay doi user
+            let { value } = e.target;
+            dispatch({
+              type: GET_USER_BY_PROJECT_SAGA,
+              idProject: value,
+            });
+            // Cap nhat gia tri cho projectId
+            setFieldValue("projectId", e.target.value);
+          }}
         >
           {arrProject?.map((project, index) => {
             return (
@@ -154,6 +166,7 @@ function FormCreateTask(props) {
                 console.log(value);
               }}
               onChange={(values) => {
+                // set lai gia tri cho lstUserAsign
                 setFieldValue("listUserAsign", values);
               }}
             >
@@ -261,7 +274,6 @@ function FormCreateTask(props) {
           }}
         />
       </div>
-      <button type="submit">Submit</button>
     </form>
   );
 }
@@ -269,7 +281,8 @@ function FormCreateTask(props) {
 const FormCreateTaskFormik = withFormik({
   enableReinitialize: true,
   mapPropsToValues: (props) => {
-    const { arrProject, arrTaskType, arrPriority, arrUser, arrStatus } = props;
+    const { arrProject, arrTaskType, arrPriority, arrStatus } = props;
+
     return {
       taskName: "",
       description: "",
@@ -293,7 +306,7 @@ const FormCreateTaskFormik = withFormik({
 
   displayName: "FormCreateTaskFormik",
 })(FormCreateTask);
-// const { arrProject } = useSelector((state) => state.ProjectManagementReducer);
+// const { arrProject } = useSelector((state) => state.ProjectManagementRedu  r);
 //   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
 //   const { arrPriority } = useSelector((state) => state.PriorityReducer);
 //   const { userSearch } = useSelector((state) => state.UserLoginJiraReducer);

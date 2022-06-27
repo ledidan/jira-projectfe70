@@ -8,14 +8,12 @@ import {
   OPEN_MODAL,
   SET_SUBMIT_FORM,
 } from "../contants/JiraConstants";
-
+import { SET_SUBMIT_CREATE_TASK } from "../contants/TaskTypeConstant";
 const stateDefault = {
   visible: false,
   title: "",
   ComponentContentDrawer: <p>Default Content</p>,
-  callBackSubmit: (propsValue) => {
-    alert("Click Demo");
-  },
+  callBackSubmit: (propsValue) => {},
 };
 
 export const ModalHOCReducer = (state = stateDefault, action) => {
@@ -41,6 +39,9 @@ export const ModalHOCReducer = (state = stateDefault, action) => {
       state.title = action.title;
       state.ComponentContentDrawer = action.Component;
       return { ...state };
+    }
+    case SET_SUBMIT_CREATE_TASK: {
+      return { ...state, callBackSubmit: action.submitFunction };
     }
     default:
       return state;

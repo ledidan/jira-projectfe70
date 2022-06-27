@@ -14,6 +14,7 @@ import * as getAllTaskType from "./TaskTypeSaga";
 import * as getAllPriority from "./PrioritySaga";
 import * as createTask from "./TaskSaga";
 import * as getStatus from "./StatusSaga";
+import * as getUserByProject from "./UserJiraSaga";
 export default function* rootSaga() {
   yield all([
     UserLogIn.listenUserSignIn(),
@@ -31,5 +32,6 @@ export default function* rootSaga() {
     getAllPriority.listenGetAllProjectSaga(),
     createTask.listenCreateTaskSaga(),
     getStatus.listenGetStatusSaga(),
+    getUserByProject.listenGetUserByProjectSaga(),
   ]);
 }
