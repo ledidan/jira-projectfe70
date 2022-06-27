@@ -8,41 +8,117 @@ import {
   takeLatest,
   select,
 } from "redux-saga/effects";
-import { ACCESS_TOKEN, USER_LOGIN } from "../../util/JiraSystem";
-import { USER_SIGNIN_API, USLOGIN_ACTION } from "../contants/JiraConstants";
-import { HIDE_LOADING } from "../contants/DisplayLoading";
-import { JiraService } from "../types/services/JiraServices";
 
-import { history } from "../../util/history";
 import { Notification } from "../../util/Notification/notification";
+import { userService } from "../services/UserService";
+import { DISPLAY_LOADING, HIDE_LOADING } from "../contants/DisplayLoading";
+import { JiraService } from "../services/JiraServices";
+import { ACCESS_TOKEN, STATUS_CODE, USER_LOGIN } from "../../util/JiraSystem";
+import {
+  ADD_USER_PROJECT,
+  GET_ALL_LIST,
+  GET_SEARCH_USER,
+  GET_USER_API,
+  REMOVE_USER_PROJECT,
+  USER_SIGNIN_API,
+  USLOGIN_ACTION,
+} from "../contants/JiraConstants";
 
-function* signInSaga(action) {
+// LOGIN API
+function* signInJira(action) {
+  // Delay
   yield delay(500);
-  // Call API
+  // Call Sign In API
   try {
     const { data, status } = yield call(() =>
       JiraService.signInJira(action.userLogin)
     );
 
-    // Save data in localStorage when signined successfully
-    localStorage.setItem(ACCESS_TOKEN, data.content.accessToken);
+    // save data in localstorage when signin successfully
+    localStorage.getItem(ACCESS_TOKEN, data.content.accessToken);
     localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
-
-    yield put({
-      type: USLOGIN_ACTION,
-      userLogin: data.content,
-    });
-
-    // let history = yield select((state) => state.HistoryReducer.history);
-    // history.push("/dashboard");
-    Notification("success", "Logged in successfully !");
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: USLOGIN_ACTION,
+        userLogin: data.content,
+      });
+    }
+    Notification("success", "Loggged in successfully");
   } catch (err) {
     console.log(err.response.data);
     Notification("error", "Login attempt failed !");
   }
-  yield put({ type: HIDE_LOADING });
+  yield put({
+    type: HIDE_LOADING,
+  });
+}
+export function* listenUserSignIn() {
+  yield takeLatest(USER_SIGNIN_API, signInJira);
 }
 
-export function* listenTheSignIn() {
-  yield takeLatest(USER_SIGNIN_API, signInSaga);
+//  GET USER ON SEARCH
+function* getUserSaga(action) {
+  // Call API
+  try {
+    const { data, status } = yield call(() =>
+      userService.getUser(action.keyWord)
+    );
+    yield put({
+      type: GET_SEARCH_USER,
+      lstUserSearch: data.content,
+    });
+  } catch (err) {
+    console.info(err?.config);
+  }
+}
+
+export function* listenToGetUser() {
+  yield takeLatest(GET_USER_API, getUserSaga);
+}
+
+// ADD USER PROJECT
+function* addUserProjectSaga(action) {
+  // Call API
+  try {
+    const { data, status } = yield call(() =>
+      userService.assignUserProject(action.userProject)
+    );
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_ALL_LIST,
+      });
+      Notification("success", "Add User Successfully");
+    }
+  } catch (err) {
+    console.info(err?.config);
+    Notification("error", "User Not Found !");
+  }
+}
+
+export function* listenAddUserProject() {
+  yield takeLatest(ADD_USER_PROJECT, addUserProjectSaga);
+}
+
+// DELETE USER FROM PROJECT
+
+function* removeUserProjectSaga(action) {
+  // Call API
+  try {
+    const { data, status } = yield call(() =>
+      userService.removeUserProject(action.userProject)
+    );
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: GET_ALL_LIST,
+      });
+      Notification("success", "Delete User Successfully");
+    }
+  } catch (err) {
+    console.log(err?.config);
+    Notification("error", "User cannot be  deleted !");
+  }
+}
+
+export function* listenRemoveUserProject() {
+  yield takeLatest(REMOVE_USER_PROJECT, removeUserProjectSaga);
 }

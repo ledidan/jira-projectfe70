@@ -2,6 +2,7 @@ import React from "react";
 
 import {
   CLOSE_MODAL,
+  FORM_CREATE_TASK,
   OPEN_EDIT_FORM,
   OPEN_FORM,
   OPEN_MODAL,
@@ -10,6 +11,7 @@ import {
 
 const stateDefault = {
   visible: false,
+  title: "",
   ComponentContentDrawer: <p>Default Content</p>,
   callBackSubmit: (propsValue) => {
     alert("Click Demo");
@@ -27,10 +29,17 @@ export const ModalHOCReducer = (state = stateDefault, action) => {
     case OPEN_EDIT_FORM: {
       state.visible = true;
       state.ComponentContentDrawer = action.Component;
+      state.title = action.title;
       return { ...state };
     }
     case SET_SUBMIT_FORM: {
       state.callBackSubmit = action.submitFunction;
+      return { ...state };
+    }
+    case FORM_CREATE_TASK: {
+      state.visible = true;
+      state.title = action.title;
+      state.ComponentContentDrawer = action.Component;
       return { ...state };
     }
     default:

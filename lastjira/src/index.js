@@ -7,14 +7,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 import { history } from "./util/history";
+// import { history } from "./redux/configStore";
 import { Router } from "react-router-dom";
-
+import { ConnectedRouter } from "connected-react-router";
 ReactDOM.render(
-  <Router history={history}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Router history={history}>
       <App />
-    </Provider>
-  </Router>,
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 

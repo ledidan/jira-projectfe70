@@ -15,42 +15,38 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useRef } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
 import {
+  API_PROJECT_CATEGORY,
   EDIT_PROJECT_FORM,
   SET_SUBMIT_FORM,
+  UPDATE_PROJECT,
 } from "../../../redux/contants/JiraConstants";
 import { withFormik } from "formik";
 import * as Yup from "yup";
-
-const { Option } = Select;
 
 function FormEditProject(props) {
   const arrProjectCategory = useSelector(
     (state) => state.ProjectCategoryReducer.arrProjectCategory
   );
   const dispatch = useDispatch();
+
   const { handleChange, handleSubmit, setFieldValue, values } = props;
+
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+
   const handleEditorChange = (content, editor) => {
     setFieldValue("description", content);
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    alert("edit submitted");
-  };
   // componentDidMount
   useEffect(() => {
+    // call API load project category
+    dispatch({ type: API_PROJECT_CATEGORY });
     // load submit event on drawer about submit button
-    dispatch({ type: SET_SUBMIT_FORM, submitFunction: submitForm });
+    dispatch({ type: SET_SUBMIT_FORM, submitFunction: handleSubmit });
   }, []);
 
   return (
-    <form className="container-fluid" onSubmit={submitForm}>
+    <form className="container-fluid" onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-4">
           <div className="form-group">
@@ -81,6 +77,7 @@ function FormEditProject(props) {
               className="form-control"
               name="categoryId"
               value={values.categoryId}
+              onChange={handleChange}
             >
               {arrProjectCategory?.map((item, index) => {
                 return (
@@ -96,12 +93,13 @@ function FormEditProject(props) {
           <div className="form-group">
             <p className="text-xl ">Description</p>
             <Editor
-              name="description2000"
+              name="description123"
               apiKey="nrpi36979r4qkvdj6xscissomderf9ezwj3nv36mc16v0mit"
               onInit={(evt, editor) => (editorRef.current = editor)}
-              initialValue={values.description}
+              value={values.description}
               init={{
-                height: 500,
+                height: 300,
+                selector: "textarea",
                 menubar: false,
                 plugins: [
                   "advlist",
@@ -155,13 +153,19 @@ const FormEditProjectJiraFormik = withFormik({
   }),
   handleSubmit: (values, { props, setSubmiting }) => {
     // props.dispatch({ type: EDIT_PROJECT_FORM, projectEdit: values });
-    console.log("values", values);
+    // Khi nguoi dung bam submit => dua du lieu ve backend thong qua API
+    const action = {
+      type: UPDATE_PROJECT,
+      projectUpdate: values,
+    };
+    // Call saga
+    props.dispatch(action);
   },
-  displayName: "CreateProjectJiraFormik",
+  displayName: "FormEditProjectJiraFormik",
 })(FormEditProject);
 
 const mapStateToProps = (state) => ({
-  projectEdit: state.EditProjectReducer.projectEdit,
+  projectEdit: state.ProjectReducer.projectEdit,
 });
 
 export default connect(mapStateToProps)(FormEditProjectJiraFormik);

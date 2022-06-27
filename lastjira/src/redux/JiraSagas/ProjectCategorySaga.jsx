@@ -4,7 +4,7 @@ import {
   API_PROJECT_CATEGORY,
   GET_API_SUCCESS,
 } from "../contants/JiraConstants";
-import { JiraService } from "../types/services/JiraServices";
+import { JiraService } from "../services/JiraServices";
 
 function* getAllProjectCategorySaga(action) {
   //   Goi API lay du lieu ve

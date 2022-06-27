@@ -7,11 +7,15 @@ import { UserLoginJiraReducer } from "./reducers/UserJiraReducer";
 import { ProjectCategoryReducer } from "./reducers/ProjectCategoryReducer";
 import { ProjectManagementReducer } from "./reducers/ProjectManagementReducer";
 import { ModalHOCReducer } from "./reducers/ModalHOCReducer";
-import { EditProjectReducer } from "./reducers/EditProjectReducer";
+import { ProjectReducer } from "./reducers/ProjectReducer";
+import { TaskTypeReducer } from "./reducers/TaskTypeReducer";
+import { PriorityReducer } from "./reducers/PriorityReducer";
+import { StatusReducer } from "./reducers/StatusReducer";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
     : compose;
+
 const middleWareSaga = createMiddleWareSaga();
 
 const rootReducer = combineReducers({
@@ -21,7 +25,10 @@ const rootReducer = combineReducers({
   ProjectCategoryReducer,
   ProjectManagementReducer,
   ModalHOCReducer,
-  EditProjectReducer,
+  ProjectReducer,
+  TaskTypeReducer,
+  PriorityReducer,
+  StatusReducer,
 });
 
 export const store = createStore(

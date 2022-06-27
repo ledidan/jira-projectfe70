@@ -144,6 +144,10 @@ module.exports = {
       "gradient-to-l": "linear-gradient(to left, var(--tw-gradient-stops))",
       "gradient-to-tl":
         "linear-gradient(to top left, var(--tw-gradient-stops))",
+      backgroundImage: {
+        "background-pattern": "url('/src/assets/img/jira-background.png')",
+        "footer-texture": "url('/img/footer-texture.png')",
+      },
     },
     backgroundOpacity: ({ theme }) => theme("opacity"),
     backgroundPosition: {

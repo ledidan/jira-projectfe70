@@ -61,7 +61,7 @@ function CreateProjectJira(props) {
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue=""
             init={{
-              height: 500,
+              height: 300,
               menubar: false,
               plugins: [
                 "advlist",
@@ -116,13 +116,15 @@ function CreateProjectJira(props) {
     </div>
   );
 }
-
 const CreateProjectJiraFormik = withFormik({
-  mapPropsToValues: (props) => ({
-    projectName: "",
-    description: "",
-    categoryId: props.arrProjectCategory,
-  }),
+  enableReinitialize: true,
+  mapPropsToValues: (props) => {
+    return {
+      projectName: "",
+      description: "",
+      categoryId: props.arrProjectCategory?.id,
+    };
+  },
   validationSchema: Yup.object().shape({
     // form validation
   }),
