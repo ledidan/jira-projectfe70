@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GET_PROJECT_DETAIL } from "../redux/contants/JiraConstants";
-import ContentMain from "./MainContentJira/ContentMain";
-import HeaderMain from "./MainContentJira/HeaderMain";
-import InfoMain from "./MainContentJira/InfoMain";
+import { GET_PROJECT_DETAIL } from "../../redux/contants/JiraConstants";
+import ContentMain from "../../Component/MainContentJira/ContentMain";
+import HeaderMain from "../../Component/MainContentJira/HeaderMain";
+import InfoMain from "../../Component/MainContentJira/InfoMain";
 export default function IndexJira(props) {
   const dispatch = useDispatch();
   let { projectDetail } = useSelector((state) => state.ProjectReducer);
@@ -21,7 +21,7 @@ export default function IndexJira(props) {
       dispatch({ type: GET_PROJECT_DETAIL, projectId });
     }, 300);
   }, []);
-  console.log(projectDetail);
+  // console.log(projectDetail);
   return (
     <div className="main">
       <HeaderMain projectDetail={projectDetail} />

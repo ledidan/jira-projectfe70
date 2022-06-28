@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../src/index.css";
+import "../../index.css";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,8 +8,8 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useDispatch } from "react-redux";
-import { FORM_CREATE_TASK } from "../redux/contants/JiraConstants";
-import FormCreateTask from "./Forms/FormCreateTask/FormCreateTask";
+import { FORM_CREATE_TASK } from "../../redux/contants/JiraConstants";
+import FormCreateTask from "../Forms/FormCreateTask/FormCreateTask";
 
 const { Header, Sider } = Layout;
 

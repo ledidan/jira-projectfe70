@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoginUI from "./pages/Login/LoginUI";
 import { JiraDashboard } from "./Template/JiraDashboard";
-import IndexJira from "./Component/IndexJira";
+import IndexJira from "./pages/IndexJiraDashBoard/IndexJira";
 import CreateProjectJira from "./pages/CreateProject/CreateProjectJira";
 import ProjectManagement from "./pages/ProjectManagement/ProjectManagement";
 import ModalHOC from "./HOC/ModalHOC";

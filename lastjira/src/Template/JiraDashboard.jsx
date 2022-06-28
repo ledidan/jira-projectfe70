@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import ModalJIra from "../Component/MainContentJira/ModalJIra";
-import MenuJira from "../Component/MenuJira";
-import SideBarJira from "../Component/SideBarJira";
+import MenuJira from "../Component/MenuJira/MenuJira";
+import SideBarJira from "../Component/SideBarJira/SideBarJira";
 
 export const JiraDashboard = (props) => {
   const { Component, ...restProps } = props;

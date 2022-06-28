@@ -11,6 +11,7 @@ import { ProjectReducer } from "./reducers/ProjectReducer";
 import { TaskTypeReducer } from "./reducers/TaskTypeReducer";
 import { PriorityReducer } from "./reducers/PriorityReducer";
 import { StatusReducer } from "./reducers/StatusReducer";
+import { TaskModalReducer } from "./reducers/TaskModalreducer";
 const composeEnhancers =
   typeof window === "object" && window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]
     ? window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]({})
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   TaskTypeReducer,
   PriorityReducer,
   StatusReducer,
+  TaskModalReducer,
 });
 
 export const store = createStore(

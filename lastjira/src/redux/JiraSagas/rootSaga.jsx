@@ -15,6 +15,9 @@ import * as getAllPriority from "./PrioritySaga";
 import * as createTask from "./TaskSaga";
 import * as getStatus from "./StatusSaga";
 import * as getUserByProject from "./UserJiraSaga";
+import * as getTaskDetailModal from "./TaskSaga";
+import * as updateTaskStatus from "./TaskSaga";
+import * as handleChangeTaskPost from "./TaskSaga";
 export default function* rootSaga() {
   yield all([
     UserLogIn.listenUserSignIn(),
@@ -33,5 +36,8 @@ export default function* rootSaga() {
     createTask.listenCreateTaskSaga(),
     getStatus.listenGetStatusSaga(),
     getUserByProject.listenGetUserByProjectSaga(),
+    getTaskDetailModal.listenGetTaskDetailSaga(),
+    updateTaskStatus.listenUpdateTaskStatusSaga(),
+    handleChangeTaskPost.theoDoiHandelChangeTaskPostApi(),
   ]);
 }
